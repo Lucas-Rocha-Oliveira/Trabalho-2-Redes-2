@@ -1,3 +1,11 @@
+"""
+Exercício 4 -Exercício 4: Servidor de Hora com Threads (TCP)
+Lucas Rocha Oliveira
+Luiz Felipe Melo Oliveira
+Luiz Guilherme Oliveira Pires
+Otávio Gomes Calazans"""
+
+
 import socket
 import threading
 import datetime 
