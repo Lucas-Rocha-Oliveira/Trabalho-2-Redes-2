@@ -34,7 +34,7 @@ def atender_cliente(socket_cliente, endereco_cliente):
 servidor_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #Cria um socket TCP/IP com IPv4
 
 try:
-    servidor_socket.bind((""0.0.0.0"", 7000)) #Vincula o socket a um endereço IP e porta específicos"
+    servidor_socket.bind(("0.0.0.0", 7000)) #Vincula o socket a um endereço IP e porta específicos"
     servidor_socket.listen(5) #O servidor começa a escutar por conexões, permitindo até 5 conexões pendentes
     print("Servidor esperando conexões...")
 
