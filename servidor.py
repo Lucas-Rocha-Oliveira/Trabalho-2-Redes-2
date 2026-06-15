@@ -1,9 +1,23 @@
 import asyncio
 import websockets
+import socket
 
 #Variável global para guardar os clientes conectados
 clientes_conectados = set()
 
+def obter_ip_local():
+    """Descobre o IP principal da máquina na rede atual."""
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        # Tenta simular uma rota externa para descobrir qual placa de rede está ativa
+        s.connect(('8.8.8.8', 80))
+        ip = s.getsockname()[0]
+    except Exception:
+        # Se estiver sem internet nenhuma, cai pro localhost
+        ip = '127.0.0.1'
+    finally:
+        s.close()
+    return ip
 
 # A função 'recepcionista' é a responsável por lidar com cada cliente que se conecta ao servidor. Ela é chamada toda vez que um novo cliente entra.
 async def recepcionista(websocket):
@@ -33,9 +47,15 @@ async def recepcionista(websocket):
 
 #Inicializar o servidor principal
 async def main():
-    # Isso cria o servidor na porta 8765 na máquina local (localhost)
-    async with websockets.serve(recepcionista, "localhost", 8765):
-        print("Servidor de Chat rodando na porta 8765...")
+    # Chama a função para descobrir o IP antes de subir o servidor
+    meu_ip = obter_ip_local()
+    
+    # Isso cria o servidor na porta 8765 ouvindo em todas as redes (0.0.0.0)
+    async with websockets.serve(recepcionista, "0.0.0.0", 8765):
+        print(f"Servidor de Chat rodando!")
+        print(f"-> Para conectar na mesma máquina, aperte Enter no cliente.")
+        print(f"-> Para conectar de outro computador, digite este IP: {meu_ip}")
+        
         await asyncio.Future() # Mantém o servidor rodando para sempre
 
 # Chave de ignição do código assíncrono
