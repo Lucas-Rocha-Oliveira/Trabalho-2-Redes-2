@@ -10,7 +10,8 @@ import socket
 cliente_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 try:
-    cliente_socket.connect(("127.0.0.1", 7000)) #Conecta ao servidor na porta 7000 do localhost
+    ip_servidor = input("Digite o IP do servidor: ")
+    cliente_socket.connect((ip_servidor, 7000))
     cliente_socket.send(b"Hora")
     resposta = cliente_socket.recv(1024).decode() #Recebe a resposta do servidor
     print(f"Resposta do servidor: {resposta}")
